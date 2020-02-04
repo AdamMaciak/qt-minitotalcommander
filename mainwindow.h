@@ -8,7 +8,7 @@
 #include <QFtp>
 #include <QFile>
 #include <QMessageBox>
-
+#include <ftpwindow.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -35,7 +35,8 @@ private slots:
 
     void on_copyButton_clicked();
 
-    void on_pushButton_3_clicked();
+
+    void on_ftpButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -47,6 +48,7 @@ private:
     QString sciezkazycia2;
     QString temp1,temp2;
     QString nameFile;
+    ftpwindow ftpWin;
 
 };
 #endif // MAINWINDOW_H

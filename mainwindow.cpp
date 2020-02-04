@@ -117,8 +117,7 @@ void MainWindow::on_listView_2_clicked(const QModelIndex &index)
     nameFile=filemodel->fileInfo(index).fileName();
 }
 
-
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_ftpButton_clicked()
 {
-
+    ftpWin.show();
 }
