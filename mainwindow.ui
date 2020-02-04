@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
-    <height>676</height>
+    <width>1196</width>
+    <height>751</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,24 +19,24 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>491</width>
-      <height>521</height>
+      <width>561</width>
+      <height>301</height>
      </rect>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>491</width>
-      <height>521</height>
-     </size>
+    <property name="uniformRowHeights">
+     <bool>false</bool>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QListView" name="listView">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>20</y>
-      <width>281</width>
-      <height>521</height>
+      <x>10</x>
+      <y>360</y>
+      <width>561</width>
+      <height>191</height>
      </rect>
     </property>
    </widget>
@@ -44,13 +44,128 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>550</y>
-      <width>131</width>
+      <y>670</y>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>create folder</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>580</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>testowy</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>561</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>550</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTreeView" name="treeView_2">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>20</y>
+      <width>581</width>
+      <height>301</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>670</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>copy</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_3">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>320</y>
+      <width>581</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListView" name="listView_2">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>360</y>
+      <width>581</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_4">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>550</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="renameButton">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>670</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rename</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="renameButton_2">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>670</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rename</string>
     </property>
    </widget>
   </widget>
@@ -59,8 +174,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>837</width>
-     <height>21</height>
+     <width>1196</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

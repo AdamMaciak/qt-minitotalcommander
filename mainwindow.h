@@ -6,6 +6,8 @@
 #include <QModelIndex>
 #include <QInputDialog>
 #include <QFtp>
+#include <QFile>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,14 +21,32 @@ public:
     ~MainWindow();
 private slots:
 
-    void on_treeView_clicked(const QModelIndex &index);
+    void cdFolder(const QModelIndex &index);
 
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_listView_clicked(const QModelIndex &index);
+
+    void on_treeView_2_clicked(const QModelIndex &index);
+
+    void on_listView_2_clicked(const QModelIndex &index);
+
+    void on_copyButton_clicked();
+
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;
     QFileSystemModel *dirmodel;
+    QFileSystemModel *dirmodel2;
     QFileSystemModel *filemodel;
+    QFileSystemModel *filemodel2;
+    QString sciezkazycia;
+    QString sciezkazycia2;
+    QString temp1,temp2;
+    QString nameFile;
 
 };
 #endif // MAINWINDOW_H
