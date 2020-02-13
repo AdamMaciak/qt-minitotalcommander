@@ -4,6 +4,7 @@
 #include <QtNetwork>
 #include <QFtp>
 
+
 ftpwindow::ftpwindow(QWidget *parent) :
     QDialog(parent),
       ui(new Ui::ftpwindow),
@@ -36,17 +37,11 @@ ftpwindow::ftpwindow(QWidget *parent) :
 
     quitButton = new QPushButton(tr("Quit"));
 
-    buttonBox = new QDialogButtonBox;
-    buttonBox->addButton(downloadButton, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
-
-    progressDialog = new QProgressDialog(this);
-
     connect(fileList, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             this, SLOT(processItem(QTreeWidgetItem*,int)));
     connect(fileList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
             this, SLOT(enableDownloadButton()));
-    connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+
     connect(connectButton, SIGNAL(clicked()), this, SLOT(connectOrDisconnect()));
     connect(cdToParentButton, SIGNAL(clicked()), this, SLOT(cdToParent()));
     connect(downloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
@@ -62,7 +57,7 @@ ftpwindow::ftpwindow(QWidget *parent) :
     mainLayout->addLayout(topLayout);
     mainLayout->addWidget(fileList);
     mainLayout->addWidget(statusLabel);
-    mainLayout->addWidget(buttonBox);
+
     setLayout(mainLayout);
 
     setWindowTitle(tr("FTP"));
@@ -72,29 +67,20 @@ QSize ftpwindow::sizeHint() const
     return QSize(500, 300);
 }
 
-//![0]
 void ftpwindow::connectOrDisconnect()
 {
     if (ftp) {
         ftp->abort();
         ftp->deleteLater();
         ftp = 0;
-//![0]
         fileList->setEnabled(false);
         cdToParentButton->setEnabled(false);
         downloadButton->setEnabled(false);
         connectButton->setEnabled(true);
         connectButton->setText(tr("Connect"));
-#ifndef QT_NO_CURSOR
-        setCursor(Qt::ArrowCursor);
-#endif
         statusLabel->setText(tr("Please enter the name of an FTP server."));
         return;
     }
-
-#ifndef QT_NO_CURSOR
-    setCursor(Qt::WaitCursor);
-#endif
 
     if (!networkSession || !networkSession->isOpen()) {
         if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
@@ -127,21 +113,18 @@ void ftpwindow::connectOrDisconnect()
 
 void ftpwindow::connectToFtp()
 {
-//![1]
+
     ftp = new QFtp(this);
     connect(ftp, SIGNAL(commandFinished(int,bool)),
             this, SLOT(ftpCommandFinished(int,bool)));
     connect(ftp, SIGNAL(listInfo(QUrlInfo)),
             this, SLOT(addToList(QUrlInfo)));
-    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
 
     fileList->clear();
     currentPath.clear();
     isDirectory.clear();
-//![1]
 
-//![2]
+
     QString user = "ftpuser";
     QString pass = "Ughlk6969";
 
@@ -159,7 +142,6 @@ void ftpwindow::connectToFtp()
         if (!url.path().isEmpty())
             ftp->cd(url.path());
     }
-//![2]
 
     fileList->setEnabled(true);
     connectButton->setEnabled(false);
@@ -168,12 +150,11 @@ void ftpwindow::connectToFtp()
                          .arg(ftpServerLineEdit->text()));
 }
 
-//![3]
+
 void ftpwindow::downloadFile()
 {
     QString fileName = fileList->currentItem()->text(0);
-//![3]
-//
+
     if (QFile::exists(fileName)) {
         QMessageBox::information(this, tr("FTP"),
                                  tr("There already exists a file called %1 in "
@@ -182,7 +163,7 @@ void ftpwindow::downloadFile()
         return;
     }
 
-//![4]
+
     file = new QFile(fileName);
     if (!file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(this, tr("FTP"),
@@ -192,33 +173,17 @@ void ftpwindow::downloadFile()
         return;
     }
 
+    file = new QFile(QString("D:/%1").arg(fileName));
+
     ftp->get(fileList->currentItem()->text(0), file);
 
-    progressDialog->setLabelText(tr("Downloading %1...").arg(fileName));
     downloadButton->setEnabled(false);
-    progressDialog->exec();
 }
-//![4]
 
-//![5]
-void ftpwindow::cancelDownload()
-{
-    ftp->abort();
 
-    if (file->exists()) {
-        file->close();
-        file->remove();
-    }
-    delete file;
-}
-//![5]
-
-//![6]
 void ftpwindow::ftpCommandFinished(int, bool error)
 {
-#ifndef QT_NO_CURSOR
-    setCursor(Qt::ArrowCursor);
-#endif
+
 
     if (ftp->currentCommand() == QFtp::ConnectToHost) {
         if (error) {
@@ -237,14 +202,10 @@ void ftpwindow::ftpCommandFinished(int, bool error)
         connectButton->setEnabled(true);
         return;
     }
-//![6]
 
-//![7]
     if (ftp->currentCommand() == QFtp::Login)
         ftp->list();
-//![7]
 
-//![8]
     if (ftp->currentCommand() == QFtp::Get) {
         if (error) {
             statusLabel->setText(tr("Canceled download of %1.")
@@ -258,19 +219,17 @@ void ftpwindow::ftpCommandFinished(int, bool error)
         }
         delete file;
         enableDownloadButton();
-        progressDialog->hide();
-//![8]
-//![9]
+
     } else if (ftp->currentCommand() == QFtp::List) {
         if (isDirectory.isEmpty()) {
             fileList->addTopLevelItem(new QTreeWidgetItem(QStringList() << tr("<empty>")));
             fileList->setEnabled(false);
         }
     }
-//![9]
+
 }
 
-//![10]
+
 void ftpwindow::addToList(const QUrlInfo &urlInfo)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem;
@@ -290,9 +249,7 @@ void ftpwindow::addToList(const QUrlInfo &urlInfo)
         fileList->setEnabled(true);
     }
 }
-//![10]
 
-//![11]
 void ftpwindow::processItem(QTreeWidgetItem *item, int /*column*/)
 {
     QString name = item->text(0);
@@ -304,20 +261,13 @@ void ftpwindow::processItem(QTreeWidgetItem *item, int /*column*/)
         ftp->cd(name);
         ftp->list();
         cdToParentButton->setEnabled(true);
-#ifndef QT_NO_CURSOR
-        setCursor(Qt::WaitCursor);
-#endif
         return;
     }
 }
-//![11]
 
-//![12]
+
 void ftpwindow::cdToParent()
 {
-#ifndef QT_NO_CURSOR
-    setCursor(Qt::WaitCursor);
-#endif
     fileList->clear();
     isDirectory.clear();
     currentPath = currentPath.left(currentPath.lastIndexOf('/'));
@@ -331,16 +281,6 @@ void ftpwindow::cdToParent()
 }
 //![12]
 
-//![13]
-void ftpwindow::updateDataTransferProgress(qint64 readBytes,
-                                           qint64 totalBytes)
-{
-    progressDialog->setMaximum(totalBytes);
-    progressDialog->setValue(readBytes);
-}
-//![13]
-
-//![14]
 void ftpwindow::enableDownloadButton()
 {
     QTreeWidgetItem *current = fileList->currentItem();

@@ -5,10 +5,13 @@
 #include <QFileSystemModel>
 #include <QModelIndex>
 #include <QInputDialog>
-#include <QFtp>
 #include <QFile>
 #include <QMessageBox>
 #include <ftpwindow.h>
+#include <QFtp>
+#include <QNetworkSession>
+#include <QSettings>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -35,10 +38,49 @@ private slots:
 
     void on_copyButton_clicked();
 
-
     void on_ftpButton_clicked();
 
+    void on_createFolderButton_clicked();
+
+    void on_renameButton_clicked();
+
+    void on_deleteButton_clicked();
+
+  //FTP//
+
+    void on_connectFtp_clicked();
+
+    void on_importftp_clicked();
+
+    void on_downloadftp_clicked();
+
+    /*/////////////////////*/
+
+
+    void connectOrDisconnect();
+    void downloadFile();
+    void connectToFtp();
+    void ftpCommandFinished(int commandId, bool error);
+    void addToList(const QUrlInfo &urlInfo);
+    void processItem(QTreeWidgetItem *item, int column);
+    void cdToParent();
+    void enableDownloadButton();
+    void enableConnectButton();
+
+
 private:
+
+    bool isConnected;
+
+    QHash<QString, bool> isDirectory;
+    QString currentPath;
+    QFtp *ftp;
+    QFile *file;
+
+    QNetworkSession *networkSession;
+    QNetworkConfigurationManager manager;
+
+
     Ui::MainWindow *ui;
     QFileSystemModel *dirmodel;
     QFileSystemModel *dirmodel2;
@@ -47,8 +89,11 @@ private:
     QString sciezkazycia;
     QString sciezkazycia2;
     QString temp1,temp2;
-    QString nameFile;
+    QString nameFile,nameFile2;
     ftpwindow ftpWin;
+    QMessageBox msgBox;
+    QAbstractButton* pButtonYes;
+    QAbstractButton* pButtonNo;
 
 };
 #endif // MAINWINDOW_H

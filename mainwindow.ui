@@ -40,17 +40,17 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="createFolderButton">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>670</y>
-      <width>151</width>
+      <width>141</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>create folder</string>
+     <string>create folder/nieuzywac</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -59,14 +59,14 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>580</y>
+      <x>370</x>
+      <y>600</y>
       <width>121</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>testowy</string>
+     <string>reset first panel</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="textEdit">
@@ -98,13 +98,16 @@
       <height>301</height>
      </rect>
     </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="copyButton">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>160</x>
       <y>670</y>
-      <width>151</width>
+      <width>131</width>
       <height>31</height>
      </rect>
     </property>
@@ -142,43 +145,256 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="renameButton">
+   <widget class="QPushButton" name="deleteButton">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>300</x>
       <y>670</y>
-      <width>151</width>
+      <width>131</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>rename</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="renameButton_2">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>670</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>rename</string>
+     <string>delete</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ftpButton">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>610</y>
-      <width>93</width>
-      <height>28</height>
+      <x>1040</x>
+      <y>670</y>
+      <width>141</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>ftp</string>
+     <string>ftp example</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hide system files</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_2">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>0</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hide system files</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>580</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>create folder</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>580</y>
+      <width>581</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="passwordftp">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>10</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="usernameftp">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>10</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="connectFtp">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>connect ftp</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>20</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>username:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>20</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>password:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="importftp">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>50</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>import</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="downloadftp">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>50</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>download</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="adressftp">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>10</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>20</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>IP:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="statusLabel">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>60</y>
+       <width>171</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?????</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="renameButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>670</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rename</string>
+    </property>
+   </widget>
+   <widget class="QTreeWidget" name="treeFTP">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>20</y>
+      <width>581</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="backButtonFtp">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>b</string>
     </property>
    </widget>
   </widget>
@@ -188,7 +404,7 @@
      <x>0</x>
      <y>0</y>
      <width>1196</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
