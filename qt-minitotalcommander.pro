@@ -34,4 +34,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES +=
 
-RESOURCES +=
+RESOURCES += \
+    ../qtftp-master/examples/qftp/ftp.qrc \
+    obrazki.qrc

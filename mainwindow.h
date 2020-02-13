@@ -66,7 +66,9 @@ private slots:
     void cdToParent();
     void enableDownloadButton();
     void enableConnectButton();
+    void importFile();
 
+    void on_backButtonFtp_clicked();
 
 private:
 

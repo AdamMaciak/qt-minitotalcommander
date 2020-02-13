@@ -14,9 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     dirmodel = new QFileSystemModel(this);
     dirmodel->setRootPath(sPath);
     dirmodel->setFilter(QDir::Dirs);
+    //TODO
     //mozna zmienic nazwe podwojnym klikiem
-   // dirmodel->setReadOnly(false);
-    dirmodel->setReadOnly(true);
+    dirmodel->setReadOnly(false);
+   // dirmodel->setReadOnly(true);
 
     dirmodel2 = new QFileSystemModel(this);
     dirmodel2->setRootPath(sPath);
@@ -65,6 +66,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->treeFTP, &QTreeWidget::currentItemChanged,
             this, &MainWindow::enableDownloadButton);
 
+    ui->downloadftp->setEnabled(false);
+    ui->importftp->setEnabled(false);
+    ui->adressftp->setText("92.222.83.90");
+    ui->usernameftp->setText("ftpuser");
+    ui->passwordftp->setText("Ughlk6969");
+
+    ui->treeFTP->setHeaderLabels(QStringList() << tr("Name") << tr("Size") << tr("Owner") << tr("Group") << tr("Time"));
+    ui->treeFTP->header()->setStretchLastSection(false);
+    ui->treeFTP->hide();
+    ui->backButtonFtp->hide();
+    ui->renameButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -187,30 +199,21 @@ void MainWindow::on_createFolderButton_clicked()
 
 void MainWindow::on_renameButton_clicked()
 {
-//    msgBox.exec();
 
-//    if(msgBox.clickedButton()==pButtonYes){
-//        QModelIndex index=ui->treeView->currentIndex();
-//        if(!index.isValid())return;
-//        QString name = QInputDialog::getText(this,"Name","for what?");
-//        if(name.isEmpty())return;
-
-//        dirmodel->mkdir(index,name);
-
-//    }
-//    else if (msgBox.clickedButton()==pButtonNo){
-//        QModelIndex index=ui->treeView_2->currentIndex();
-//        if(!index.isValid())return;
-//        QString name = QInputDialog::getText(this,"Name","for what?");
-//        if(name.isEmpty())return;
-//        dirmodel2->mkdir(index,name);
-//    }
 }
 
 void MainWindow::on_deleteButton_clicked()
 {
     //QString destinationFile=sciezkazycia2+"/"+nameFile2;
-    QFile::remove(temp2);
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(this, "where?", "confirm delete:"+temp1,
+                                    QMessageBox::Yes|QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        QFile::remove(temp1);
+    }
+
 }
 
 void MainWindow::on_connectFtp_clicked()
@@ -224,13 +227,12 @@ void MainWindow::on_connectFtp_clicked()
 
 void MainWindow::on_importftp_clicked()
 {
-    ui->treeView_2->show();
-    ui->listView_2->setEnabled(true);
+    importFile();
 }
 
 
 void MainWindow::on_downloadftp_clicked(){
-
+    downloadFile();
 }
 
 void MainWindow::connectOrDisconnect(){
@@ -238,10 +240,14 @@ void MainWindow::connectOrDisconnect(){
         ftp->abort();
         ftp->deleteLater();
         ftp = 0;
-        ui->treeFTP->setEnabled(false);
-        //ui->backButtonFtp->setEnabled(false);
+        ui->treeFTP->hide();
+        ui->backButtonFtp->hide();
         ui->downloadftp->setEnabled(false);
         ui->connectFtp->setEnabled(true);
+        ui->importftp->setEnabled(false);
+        ui->textEdit_3->setEnabled(true);
+        ui->textEdit_4->setEnabled(true);
+        ui->listView_2->setEnabled(true);
         ui->connectFtp->setText(tr("Connect"));
         ui->statusLabel->setText(tr("Please enter the name of an FTP server."));
         return;
@@ -277,8 +283,8 @@ void MainWindow::connectOrDisconnect(){
 }
 void MainWindow::downloadFile(){
     QString fileName = ui->treeFTP->currentItem()->text(0);
-
-    if (QFile::exists(fileName)) {
+    QString newfile=sciezkazycia+"/"+fileName;
+    if (QFile::exists(newfile)) {
         QMessageBox::information(this, tr("FTP"),
                                  tr("There already exists a file called %1 in "
                                     "the current directory.")
@@ -287,7 +293,7 @@ void MainWindow::downloadFile(){
     }
 
 
-    file = new QFile(fileName);
+    file = new QFile(newfile);
     if (!file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(this, tr("FTP"),
                                  tr("Unable to save the file %1: %2.")
@@ -296,7 +302,7 @@ void MainWindow::downloadFile(){
         return;
     }
 
-    file = new QFile(QString("D:/%1").arg(fileName));
+    file = new QFile(newfile);
 
     ftp->get(ui->treeFTP->currentItem()->text(0), file);
 
@@ -309,21 +315,19 @@ void MainWindow::connectToFtp(){
             this, SLOT(ftpCommandFinished(int,bool)));
     connect(ftp, SIGNAL(listInfo(QUrlInfo)),
             this, SLOT(addToList(QUrlInfo)));
-    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
 
     ui->treeFTP->clear();
     currentPath.clear();
     isDirectory.clear();
 
 
-    QString user = "ftpuser";
-    QString pass = "Ughlk6969";
+//    QString user = "ftpuser";
+//    QString pass = "Ughlk6969";
     //TODO
     QUrl url(ui->adressftp->text());
     if (!url.isValid() || url.scheme().toLower() != QLatin1String("ftp")) {
         ftp->connectToHost(ui->adressftp->text(), 21);
-        ftp->login(user,pass);
+        ftp->login(ui->usernameftp->text(),ui->passwordftp->text());
     } else {
         ftp->connectToHost(url.host(), url.port(21));
 
@@ -335,11 +339,16 @@ void MainWindow::connectToFtp(){
             ftp->cd(url.path());
     }
 
-    ui->treeFTP->setEnabled(true);
+    ui->treeFTP->show();
     ui->connectFtp->setEnabled(false);
     ui->connectFtp->setText(tr("Disconnect"));
     ui->statusLabel->setText(tr("Connecting to FTP server %1...")
                          .arg(ui->adressftp->text()));
+    ui->backButtonFtp->show();
+    ui->importftp->setEnabled(true);
+    ui->textEdit_3->setEnabled(false);
+    ui->textEdit_4->setEnabled(false);
+    ui->listView_2->setEnabled(false);
 }
 void MainWindow::ftpCommandFinished(int commandId, bool error){
     if (ftp->currentCommand() == QFtp::ConnectToHost) {
@@ -381,6 +390,16 @@ void MainWindow::ftpCommandFinished(int commandId, bool error){
         if (isDirectory.isEmpty()) {
             ui->treeFTP->addTopLevelItem(new QTreeWidgetItem(QStringList() << tr("<empty>")));
             ui->treeFTP->setEnabled(false);
+        }
+    }
+    if(ftp->currentCommand()==QFtp::Put){
+        if(error){
+            ui->statusLabel->setText(tr("Canceled upload file"));
+            file->close();
+        }
+        else {
+            ui->statusLabel->setText("import"+nameFile+"to current directory");
+            file->close();
         }
     }
 }
@@ -451,4 +470,16 @@ void MainWindow::enableConnectButton(){
 
     ui->connectFtp->setEnabled(true);
     ui->statusLabel->setText(tr("Please enter the name of an FTP server."));
+}
+
+void MainWindow::importFile(){
+
+    file = new QFile(temp1);
+    QString sdas=ui->treeFTP->currentItem()->text(0);
+    ftp->put(file,nameFile);
+}
+
+void MainWindow::on_backButtonFtp_clicked()
+{
+    cdToParent();
 }
